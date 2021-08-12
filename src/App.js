@@ -1,25 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import awsconfig from './aws-exports';
+import {AmplifySignIn, AmplifyAuthenticator} from '@aws-amplify/ui-react'
+import Amplify from 'aws-amplify';
+import MainComponent from './Components/MainComponent';
+import { useEffect, useState } from 'react';
+import {AuthState, onAuthUIStateChange} from '@aws-amplify/ui-components';
+
+
+Amplify.configure(awsconfig);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const [authState, setAuthState] = useState();
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    })
+  }, []);
+
+  const component = (authState === AuthState.SignedIn && user ? <MainComponent /> : <AmplifyAuthenticator><AmplifySignIn slot="sign-in" hideSignUp></AmplifySignIn></AmplifyAuthenticator>);
+
+  return component;
 }
 
 export default App;

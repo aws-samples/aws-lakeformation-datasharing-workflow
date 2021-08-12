@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lfworkflowui-dev-141400-authRole",
+      "UnauthRoleArn": "arn:aws:iam::124052206493:role/amplify-lfworkflowui-dev-141400-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::124052206493:role/amplify-lfworkflowui-dev-141400-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-lfworkflowui-dev-141400-deployment",
+      "UnauthRoleName": "amplify-lfworkflowui-dev-141400-unauthRole",
+      "StackName": "amplify-lfworkflowui-dev-141400",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:124052206493:stack/amplify-lfworkflowui-dev-141400/54a5f8a0-fa6b-11eb-90aa-02c69f0ddb0a",
+      "AmplifyAppId": "d3s6l2obiubcz7"
+    },
+    "categories": {
+      "auth": {
+        "lfworkflowuid8cee727d8cee727": {}
+      }
+    }
+  }
+}

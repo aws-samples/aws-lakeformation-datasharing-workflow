@@ -1,0 +1,51 @@
+import { AppLayout, Button, SideNavigation } from "@awsui/components-react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import CatalogComponent from "./CatalogComponent";
+import CatalogTablesComponent from "./CatalogTablesComponent";
+import {Auth} from "aws-amplify";
+import RequestAccessComponent from "./RequestAccessComponent";
+import WorkflowExecutionsComponent from "./WorkflowExecutionsComponent";
+
+function MainComponent(props) {
+    return (
+        <AppLayout navigation={
+            <SideNavigation 
+                activeHref={window.location.pathname} 
+                header={{ href: "/", text: "Data Lake Workflow"}}
+                items={[
+                    {type: "link", text: "Catalog", href: "/"},
+                    {type: "link", text: "Workflow Executions", href: "/workflow-executions"},
+                    {type: "link", text: "Logout", href: "#"}
+                ]}
+                onFollow={async(event) => {
+                    event.preventDefault();
+                    if (event.detail.text != "Logout") {
+                        window.location = event.detail.href;
+                    } else {
+                        await Auth.signOut();
+                        window.location = "/";
+                    }
+                }}
+                />
+        } content={
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/">
+                        <CatalogComponent />
+                    </Route>
+                    <Route exact path="/tables/:dbname">
+                        <CatalogTablesComponent />
+                    </Route>
+                    <Route exact path="/request-access/:dbname/:tablename">
+                        <RequestAccessComponent />
+                    </Route>
+                    <Route exact path="/workflow-executions">
+                        <WorkflowExecutionsComponent />
+                    </Route>
+                </Switch>
+            </BrowserRouter>
+        } />
+    );
+}
+
+export default MainComponent;
