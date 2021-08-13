@@ -5,6 +5,7 @@ import CatalogTablesComponent from "./CatalogTablesComponent";
 import {Auth} from "aws-amplify";
 import RequestAccessComponent from "./RequestAccessComponent";
 import WorkflowExecutionsComponent from "./WorkflowExecutionsComponent";
+import WorkflowExecutionDetailsComponent from "./WorkflowExecutionDetailsComponent";
 
 function MainComponent(props) {
     return (
@@ -41,6 +42,9 @@ function MainComponent(props) {
                     </Route>
                     <Route exact path="/workflow-executions">
                         <WorkflowExecutionsComponent />
+                    </Route>
+                    <Route exact path="/execution-details/:execArn">
+                        <WorkflowExecutionDetailsComponent />
                     </Route>
                 </Switch>
             </BrowserRouter>

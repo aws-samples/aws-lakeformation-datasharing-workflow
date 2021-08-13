@@ -1,25 +1,11 @@
 import Amplify, {Auth} from "aws-amplify";
 import { useEffect, useState } from "react";
 import { SFNClient, ListExecutionsCommand } from "@aws-sdk/client-sfn";
-import { Badge, Header, Table, Link, Box } from "@awsui/components-react";
+import { Header, Table, Link, Box } from "@awsui/components-react";
+import BadgeStatus from "./BadgeStatus";
 
 const config = Amplify.configure();
 const SM_ARN = "arn:aws:states:ap-southeast-1:124052206493:stateMachine:DataLakeApprovalWorkflow";
-
-const BadgeStatus = ({children}) => {
-    let color = "red";
-
-    switch (children) {
-        case "SUCCEEDED":
-            color = "green";
-            break;
-        case "RUNNING":
-            color = "blue";
-            break;
-    }
-
-    return <Badge color={color}>{children}</Badge>
-}
 
 function WorkflowExecutionsComponent(props) {
     const [executions, setExecutions] = useState([]);
@@ -44,7 +30,7 @@ function WorkflowExecutionsComponent(props) {
             <Table footer={<Box textAlign="center" display={(response && response.nextToken) ? "block" : "none"}><Link variant="primary" onFollow={(event) => setNextToken(response.nextToken)}>View More</Link></Box>} header={<Header variant="h2">Workflow Executions</Header>} items={executions} columnDefinitions={[
                 {
                     header: "Name",
-                    cell: item => item.name
+                    cell: item => <Link variant="primary" href={"/execution-details/"+item.executionArn}>{item.name}</Link>
                 },
                 {
                     header: "Start Date",
