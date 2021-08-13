@@ -16,6 +16,7 @@ function RequestAccessComponent(props) {
     const [error, setError] = useState();
     const [tableNotFound, setTableNotFound] = useState(false);
     const [requestSuccessful, setRequestSuccessful] = useState(false);
+    const [executionArn, setExecutionArn] = useState();
 
     const submitRequestAccess = async() => {
         if (targetAccount && targetAccount.length > 0) {
@@ -37,6 +38,7 @@ function RequestAccessComponent(props) {
                     stateMachineArn: SM_ARN
                 }));
 
+                setExecutionArn(resp.executionArn);
                 setRequestSuccessful(true);
                 setTargetAccount(null);
             } catch (e) {
@@ -70,7 +72,7 @@ function RequestAccessComponent(props) {
                             { text: "Request Access ("+tablename+")", href: "/request-access/"+dbname+"/"+tablename }
                         ]} />
                 <Box margin={{top: "s", bottom: "s"}} display={requestSuccessful ? "block" : "none"}>
-                    <Flashbar items={[{type: "success", header: "Request Submitted", content: "Successfully submitted request, once approved please accept RAM request."}]}></Flashbar>
+                    <Flashbar items={[{type: "success", header: "Request Submitted ("+executionArn+")", content: "Successfully submitted request, once approved please accept RAM request."}]}></Flashbar>
                 </Box>
                 <Container header={<Header variant="h2">Table Details</Header>}>
                     <ColumnLayout columns={2} variant="text-grid">
