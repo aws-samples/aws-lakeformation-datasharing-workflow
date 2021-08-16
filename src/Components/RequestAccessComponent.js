@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { GlueClient, GetTableCommand } from "@aws-sdk/client-glue";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
-import { ColumnLayout, Container, Flashbar, Header, Link, Box, SpaceBetween, BreadcrumbGroup, Table, Button, Form, FormField, Input} from "@awsui/components-react";
+import { ColumnLayout, Container, Flashbar, Header, Link, Box, SpaceBetween, BreadcrumbGroup, Table, Button, Form, FormField, Input, Badge} from "@awsui/components-react";
 import ValueWithLabel from "./ValueWithLabel";
 
 const config = Amplify.configure();
@@ -103,6 +103,10 @@ function RequestAccessComponent(props) {
                         {
                             header: "Type",
                             cell: item => item.Type
+                        },
+                        {
+                            header: "Is PII",
+                            cell: item => (item.Parameters && "pii_flag" in item.Parameters && item.Parameters.pii_flag) ? <Badge color="red">Yes</Badge> : <Badge color="green">No</Badge>
                         }
                     ]} />
                 </Box>
