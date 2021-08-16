@@ -12,6 +12,8 @@ export interface AppStackProps extends StackProps {
 }
 
 export class AppStack extends Stack {
+    readonly stateMachine: StateMachine;
+
     constructor(scope: Construct, id: string, props: AppStackProps) {
         super(scope, id, props);
 
@@ -96,7 +98,7 @@ export class AppStack extends Stack {
                 .otherwise(sfnSendAndWaitPIIColumnApproval.next(sfnApprovedPIIShareCatalogItem))
         );
 
-        const stateMachine = new StateMachine(this, "DataLakeApprovalWorkflow", {
+        this.stateMachine = new StateMachine(this, "DataLakeApprovalWorkflow", {
             definition: sfnDefinition,
             stateMachineType: StateMachineType.STANDARD,
             role: Role.fromRoleArn(this, "DataLakeWorkflowRole", props.securityStack.stateMachineWorkflowRole.roleArn)

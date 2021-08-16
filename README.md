@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# Data Lake Workflow UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This application demonstrates how to build an approval workflow to provide a consistent experience for data consumers to request access to specific data sets from data producers. The underlying workflow logic has the following basic condition:
 
-## Available Scripts
+- If the table doesn't have any PII column (identified with a `pii_flag` parameter at the column level) then the request would be automatically approved and the catalog item shared to the target account.
+- If the table does have PII column, it will assume a role (`ProducerWorkflowRole`) in the relevant producer account and public a message to the target SNS topic (`DataLakeSharingApproval`). Emails that are registered in the topic would receive the email and can approve/deny the request directly.
 
-In the project directory, you can run:
+The data owner is identified using a table level parameter `data_owner` which points to the producer account ID.
 
-### `yarn start`
+## Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The application consists of the following components:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Central Mesh
+The central mesh holds all the catalog items collated from the different producer accounts. Since the `GRANT` API calls would be done in this account, it makes sense to host the workflow engine as well as the relevant resources in this account. The breakdown are as follows:
 
-### `yarn test`
+- IAM roles for the Lambda functions and the Step Function
+- Lambda functions to support the Step Function and API Gateway
+- API Gateway (to receive the approve/deny response)
+- Step Function contains the actual workflow itself
+- (**Optional**) Cognito User Pools and Identity Pools to support the UI. If the UI is not deployed, then this is not needed.
+    - More importantly, the authenticated role associated with the Identity Pools should have at least a `DESCRIBE` access to all the tables in the databases so that it can be displayed in the UI. In addition, the following IAM inline policy:
+        ```
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "glue:GetDatabase",
+                    "glue:GetTables",
+                    "states:DescribeStateMachine",
+                    "states:DescribeExecution",
+                    "states:ListExecutions",
+                    "states:GetExecutionHistory",
+                    "states:StartExecution",
+                    "states:StopExecution",
+                    "glue:GetDatabases",
+                    "glue:GetTable"
+                ],
+                "Resource": "*"
+            }
+        ```
+- (**Optional**) React application deployed in Amplify hosting. If the UI is not deployed, then this is not needed.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Producer Accounts
+The different producer accounts holds the actual data in their respective S3 buckets. These are then shared to the Central Mesh so they can be included in the central catalog for ease of searching. The producer accounts owns the data so the final approval is up to them. To support the workflow engine, the following are the breakdown of the components:
+- `ProducerWorkflowRole` is the role that would be assumed by the workflow engine if it needs to send the approval request.
+- `DataLakeSharingApproval` is the SNS Topic where the approval request would be published. Relevant stakeholders in the producer team can subscribed their email addresses to get notified for requests. They can then click either approve/deny link embedded in the email to response accordingly to the request.
 
-### `yarn build`
+## Deployment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Central Mesh
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**TODO**
 
-### `yarn eject`
+#### Producer Account
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**TODO**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Frontend 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**TODO**

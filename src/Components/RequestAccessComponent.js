@@ -5,9 +5,10 @@ import { GlueClient, GetTableCommand } from "@aws-sdk/client-glue";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 import { ColumnLayout, Container, Flashbar, Header, Link, Box, SpaceBetween, BreadcrumbGroup, Table, Button, Form, FormField, Input, Badge} from "@awsui/components-react";
 import ValueWithLabel from "./ValueWithLabel";
+import AppConfig from "../app-config";
 
 const config = Amplify.configure();
-const SM_ARN = "arn:aws:states:ap-southeast-1:124052206493:stateMachine:DataLakeApprovalWorkflow";
+const SM_ARN = AppConfig.state_machine_arn;
 
 function RequestAccessComponent(props) {
     const {dbname, tablename} = useParams();

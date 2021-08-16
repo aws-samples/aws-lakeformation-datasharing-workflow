@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { SFNClient, ListExecutionsCommand } from "@aws-sdk/client-sfn";
 import { Header, Table, Link, Box } from "@awsui/components-react";
 import BadgeStatus from "./BadgeStatus";
+import AppConfig from "../app-config";
 
 const config = Amplify.configure();
-const SM_ARN = "arn:aws:states:ap-southeast-1:124052206493:stateMachine:DataLakeApprovalWorkflow";
+const SM_ARN = AppConfig.state_machine_arn;
 
 function WorkflowExecutionsComponent(props) {
     const [executions, setExecutions] = useState([]);
