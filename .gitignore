@@ -45,3 +45,4 @@ amplifytools.xcconfig
 app-config.js
 !app-config.js.template
 cfn-output.json
+team-provider-info.json
