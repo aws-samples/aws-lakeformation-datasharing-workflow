@@ -44,3 +44,4 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 app-config.js
 !app-config.js.template
+cfn-output.json

@@ -1,17 +1,17 @@
 import { Effect, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "@aws-cdk/aws-iam";
 import { Code, Function, Runtime } from "@aws-cdk/aws-lambda";
-import { Construct, Stack, StackProps } from "@aws-cdk/core";
+import { Construct, NestedStack, NestedStackProps, Stack, StackProps } from "@aws-cdk/core";
 import {LambdaInvocationType, LambdaInvoke} from "@aws-cdk/aws-stepfunctions-tasks";
 import { Choice, Condition, StateMachine, StateMachineType, TaskInput } from "@aws-cdk/aws-stepfunctions";
 import { HttpApi, HttpMethod } from "@aws-cdk/aws-apigatewayv2";
 import { LambdaProxyIntegration } from "@aws-cdk/aws-apigatewayv2-integrations";
 import { SecurityStack } from "../SecurityStack";
 
-export interface AppStackProps extends StackProps {
+export interface AppStackProps extends NestedStackProps {
     readonly securityStack: SecurityStack
 }
 
-export class AppStack extends Stack {
+export class AppStack extends NestedStack {
     readonly stateMachine: StateMachine;
 
     constructor(scope: Construct, id: string, props: AppStackProps) {

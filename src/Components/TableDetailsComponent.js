@@ -4,12 +4,10 @@ import { useParams } from "react-router";
 import { GlueClient, GetTableCommand } from "@aws-sdk/client-glue";
 import { ColumnLayout, Container, Flashbar, Header, Link, Box, SpaceBetween, BreadcrumbGroup, Table, Button, Form, FormField, Input, Badge} from "@awsui/components-react";
 import ValueWithLabel from "./ValueWithLabel";
-import AppConfig from "../app-config";
 import RequestAccessComponent from "./RequestAccessComponent";
 import DatabaseDetailsComponent from "./DatabaseDetailsComponent";
 
 const config = Amplify.configure();
-const SM_ARN = AppConfig.state_machine_arn;
 
 function TableDetailsComponent(props) {
     const {dbname, tablename} = useParams();

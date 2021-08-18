@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { SFNClient, ListExecutionsCommand } from "@aws-sdk/client-sfn";
 import { Header, Table, Link, Box } from "@awsui/components-react";
 import BadgeStatus from "./BadgeStatus";
-import AppConfig from "../app-config";
+const cfnOutput = require("../cfn-output.json");
 
 const config = Amplify.configure();
-const SM_ARN = AppConfig.state_machine_arn;
+const SM_ARN = cfnOutput.InfraStack.StateMachineArn;
 
 function WorkflowExecutionsComponent(props) {
     const [executions, setExecutions] = useState([]);

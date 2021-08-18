@@ -1,7 +1,7 @@
 import { Effect, ManagedPolicy, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "@aws-cdk/aws-iam";
-import { Construct, Stack, StackProps } from "@aws-cdk/core";
+import { Construct, NestedStack, NestedStackProps, Stack, StackProps } from "@aws-cdk/core";
 
-export class SecurityStack extends Stack {
+export class SecurityStack extends NestedStack {
 
     readonly stateMachineWorkflowRole: Role;
     readonly workflowLambdaSMApproverRole: Role;
@@ -9,7 +9,7 @@ export class SecurityStack extends Stack {
     readonly workflowLambdaShareCatalogItemRole: Role;
     readonly workflowLambdaTableDetailsRole: Role;
 
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props?: NestedStackProps) {
         super(scope, id, props);
     
         const workflowLambdaSMApproverRolePolicy = new PolicyDocument({
@@ -31,7 +31,7 @@ export class SecurityStack extends Stack {
 
         this.workflowLambdaSMApproverRole = new Role(this, "WorkflowLambdaSMApproverRole", {
             assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
-            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("AWSLambdaBasicExecutionRole")],
+            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole")],
             inlinePolicies: {inline0: workflowLambdaSMApproverRolePolicy}
         });
 
@@ -49,7 +49,7 @@ export class SecurityStack extends Stack {
 
         this.workflowLambdaSendApprovalEmailRole = new Role(this, "WorkflowLambdaSendApprovalEmailRole", {
             assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
-            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("AWSLambdaBasicExecutionRole")],
+            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole")],
             inlinePolicies: {inline0: workflowLambdaSendApprovalEmailRolePolicy}
         });
 
@@ -69,7 +69,7 @@ export class SecurityStack extends Stack {
 
         this.workflowLambdaShareCatalogItemRole = new Role(this, "WorkflowLambdaShareCatalogItemRole", {
             assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
-            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("AWSLambdaBasicExecutionRole"), ManagedPolicy.fromAwsManagedPolicyName("AWSLakeFormationCrossAccountManager")],
+            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole"), ManagedPolicy.fromAwsManagedPolicyName("AWSLakeFormationCrossAccountManager")],
             inlinePolicies: {inline0: workflowLambdaShareCatalogItemRolePolicy}
         });
 
@@ -88,7 +88,7 @@ export class SecurityStack extends Stack {
 
         this.workflowLambdaTableDetailsRole = new Role(this, "WorkflowLambdaTableDetailsRole", {
             assumedBy: new ServicePrincipal("lambda.amazonaws.com"),
-            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("AWSLambdaBasicExecutionRole")],
+            managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole")],
             inlinePolicies: {inline0: workflowLambdaTableDetailsRolePolicy}
         });
         

@@ -2,10 +2,10 @@ import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 import { useEffect, useState } from "react";
 import Amplify, { Auth } from "aws-amplify";
 import { Button, Container, Form, FormField, Header, Input } from "@awsui/components-react";
-import AppConfig from "../app-config";
+const cfnOutput = require("../cfn-output.json");
 
 const config = Amplify.configure();
-const SM_ARN = AppConfig.state_machine_arn;
+const SM_ARN = cfnOutput.InfraStack.StateMachineArn;
 
 function RequestAccessComponent({dbName, tableName, successHandler}) {
     const [targetAccount, setTargetAccount] = useState();

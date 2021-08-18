@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AppConfig from "../app-config";
 import Amplify, { Auth } from "aws-amplify";
 import { GetDatabaseCommand, GlueClient } from "@aws-sdk/client-glue";
 import { ColumnLayout, Container, Header, SpaceBetween } from "@awsui/components-react";

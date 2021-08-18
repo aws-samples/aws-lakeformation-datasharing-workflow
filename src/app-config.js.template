@@ -1,5 +1,0 @@
-const AppConfig = {
-    "state_machine_arn": "<DATA_WORKFLOW_STEP_FUNCTION_ARN>"
-}
-
-export default AppConfig;
