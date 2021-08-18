@@ -20,6 +20,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "init-central": "cd infra/central && cdk bootstrap",
+    "deploy-central": "cd infra/central && cdk deploy --all --require-approval never --outputs-file ../../src/cfn-output.json",
+    "deploy-producer": "cd infra/producer && cdk deploy --require-approval never",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
