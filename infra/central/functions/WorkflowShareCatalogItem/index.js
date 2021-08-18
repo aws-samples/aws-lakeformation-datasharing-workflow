@@ -12,11 +12,21 @@ exports.handler = async (event) => {
         PermissionsWithGrantOption: ["SELECT", "DESCRIBE"],
         Principal: {
             DataLakePrincipalIdentifier: target.account_id
-        },
-        Resource: {
+        }
+    }
+
+    if (source.table == "*") {
+        grantParams["Resource"] = {
             Table: {
                 DatabaseName: source.database,
-                Name: source.table,
+                TableWildcard: {}
+            }
+        }
+    } else {
+        grantParams["Resource"] = {
+            Table: {
+                DatabaseName: source.database,
+                Name: source.table
             }
         }
     }

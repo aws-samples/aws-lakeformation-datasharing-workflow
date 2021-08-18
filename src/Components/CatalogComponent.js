@@ -27,14 +27,16 @@ function CatalogComponent(props) {
 
                     },
                     {
-                        id: "location",
                         header: "Location",
                         cell: item => item.LocationUri
                     },
                     {
-                        id: "actions",
+                        header: "Owner",
+                        cell: item => item.Parameters.data_owner_name + " ("+item.Parameters.data_owner+")"
+                    },
+                    {
                         header: "Actions",
-                        cell: item => <Link variant="primary" href={"/tables/"+item.Name}>View Tables</Link>
+                        cell: item => <Link variant="primary" href={"/tables/"+item.Name}>Request Access</Link>
                     }
                 ]}
 

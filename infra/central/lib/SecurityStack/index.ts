@@ -59,7 +59,8 @@ export class SecurityStack extends Stack {
                     effect: Effect.ALLOW,
                     actions: [
                         "lakeformation:GrantPermissions",
-                        "glue:GetTable"
+                        "glue:GetTable",
+                        "glue:GetDatabase"
                     ],
                     resources: ["*"]
                 })
@@ -77,7 +78,8 @@ export class SecurityStack extends Stack {
                 new PolicyStatement({
                     effect: Effect.ALLOW,
                     actions: [
-                        "glue:GetTable"
+                        "glue:GetTable",
+                        "glue:GetDatabase"
                     ],
                     resources: ["*"]
                 })

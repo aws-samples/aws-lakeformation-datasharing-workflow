@@ -5,40 +5,52 @@ const DATA_OWNER_KEY = "data_owner";
 exports.handler = async (event) => {
     const dbName = event.database;
     const tableName = event.table;
-    const sourceAccount = event.source_account;
     
     const glue = new AWS.Glue();
-    const details = await glue.getTable({
-        DatabaseName: dbName,
-        Name: tableName,
-        CatalogId: sourceAccount
-    }).promise();
-
-    const tableParameters = details.Table.Parameters;
-    const columns = details.Table.StorageDescriptor.Columns;
     var hasPii = false;
+    var dataOwner = null;
+    var db = null;
     
-    if (!(DATA_OWNER_KEY in tableParameters)) {
-        throw new Error("Missing data_owner parameter in table");
-    }
-    
-    const dataOwner = tableParameters[DATA_OWNER_KEY];
-    
-    for (var i = 0; i < columns.length; i++) {
-        const col = columns[i];
-        
-        if ("Parameters" in col) {
-            if (PII_PROPERTY_KEY in col.Parameters) {
-                hasPii = col.Parameters[PII_PROPERTY_KEY] === "true";
-                
-                if (hasPii)
-                    break;
-            }
+    const dbDetails = await glue.getDatabase({Name: dbName}).promise();
+    if (dbDetails.Database) {
+        db = dbDetails.Database;
+        if (db.Parameters && DATA_OWNER_KEY in db.Parameters) {
+            dataOwner = db.Parameters[DATA_OWNER_KEY];
+        } else {
+            throw new Error("Missing data_owner parameter in database");
         }
+    } else {
+        throw new Error("Invalid request, missing database.");
+    }    
+    
+    if (tableName == "*") {
+        if (db.Parameters && PII_PROPERTY_KEY in db.Parameters) {
+            hasPii = db.Parameters[PII_PROPERTY_KEY] === "true";
+        }
+    } else {
+        const details = await glue.getTable({
+            DatabaseName: dbName,
+            Name: tableName
+        }).promise();
+    
+        const tableParameters = details.Table.Parameters;
+        const columns = details.Table.StorageDescriptor.Columns;
+
+        for (var i = 0; i < columns.length; i++) {
+            const col = columns[i];
+            
+            if ("Parameters" in col) {
+                if (PII_PROPERTY_KEY in col.Parameters) {
+                    hasPii = col.Parameters[PII_PROPERTY_KEY] === "true";
+                    
+                    if (hasPii)
+                        break;
+                }
+            }
+        }   
     }
 
     var response = {
-        columns: details.Table.StorageDescriptor.Columns,
         has_pii: hasPii,
         data_owner: dataOwner
     }

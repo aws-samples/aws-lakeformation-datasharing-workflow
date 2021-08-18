@@ -3,9 +3,9 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import CatalogComponent from "./CatalogComponent";
 import CatalogTablesComponent from "./CatalogTablesComponent";
 import {Auth} from "aws-amplify";
-import RequestAccessComponent from "./RequestAccessComponent";
 import WorkflowExecutionsComponent from "./WorkflowExecutionsComponent";
 import WorkflowExecutionDetailsComponent from "./WorkflowExecutionDetailsComponent";
+import TableDetailsComponent from "./TableDetailsComponent";
 
 function MainComponent(props) {
     return (
@@ -38,7 +38,7 @@ function MainComponent(props) {
                         <CatalogTablesComponent />
                     </Route>
                     <Route exact path="/request-access/:dbname/:tablename">
-                        <RequestAccessComponent />
+                        <TableDetailsComponent />
                     </Route>
                     <Route exact path="/workflow-executions">
                         <WorkflowExecutionsComponent />
