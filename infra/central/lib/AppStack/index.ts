@@ -2,7 +2,7 @@ import { Effect, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from 
 import { Code, Function, Runtime } from "@aws-cdk/aws-lambda";
 import { Construct, NestedStack, NestedStackProps, Stack, StackProps } from "@aws-cdk/core";
 import {LambdaInvocationType, LambdaInvoke} from "@aws-cdk/aws-stepfunctions-tasks";
-import { Choice, Condition, StateMachine, StateMachineType, TaskInput } from "@aws-cdk/aws-stepfunctions";
+import { Choice, Condition, IntegrationPattern, JsonPath, StateMachine, StateMachineType, TaskInput } from "@aws-cdk/aws-stepfunctions";
 import { HttpApi, HttpMethod } from "@aws-cdk/aws-apigatewayv2";
 import { LambdaProxyIntegration } from "@aws-cdk/aws-apigatewayv2-integrations";
 import { SecurityStack } from "../SecurityStack";
@@ -69,16 +69,17 @@ export class AppStack extends NestedStack {
         const sfnNoPIIShareCatalogItem = new LambdaInvoke(this, "NoPIIShareCatalogItem", {
             lambdaFunction: workflowShareCatalogItem,
             payload: TaskInput.fromObject({
-                ".$": "$"
+                "source.$": "$.source",
+                "target.$": "$.target",
             })
         });
 
         const sfnSendAndWaitPIIColumnApproval = new LambdaInvoke(this, "SendAndWaitPIIColumnApproval", {
             lambdaFunction: workflowSendApprovalNotification,
-            invocationType: LambdaInvocationType.EVENT,
+            integrationPattern: IntegrationPattern.WAIT_FOR_TASK_TOKEN,
             payload: TaskInput.fromObject({
                 "Input.$": "$",
-                "TaskToken.$": "$$.Task.Token"
+                "TaskToken": JsonPath.taskToken
             }),
             resultPath: "$.approval_details"
         });
@@ -86,7 +87,8 @@ export class AppStack extends NestedStack {
         const sfnApprovedPIIShareCatalogItem = new LambdaInvoke(this, "ApprovedPIIShareCatalogItem", {
             lambdaFunction: workflowShareCatalogItem,
             payload: TaskInput.fromObject({
-                ".$": "$"
+                "source.$": "$.source",
+                "target.$": "$.target",
             })
         });
 

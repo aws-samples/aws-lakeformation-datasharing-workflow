@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Amplify, { Auth } from "aws-amplify";
 import { GetDatabaseCommand, GlueClient } from "@aws-sdk/client-glue";
-import { ColumnLayout, Container, Header, SpaceBetween } from "@awsui/components-react";
+import { Badge, ColumnLayout, Container, Header, SpaceBetween } from "@awsui/components-react";
 import ValueWithLabel from "./ValueWithLabel";
 
 const config = Amplify.configure();
@@ -26,6 +26,9 @@ function DatabaseDetailsComponent({dbName}) {
                         </ValueWithLabel>
                         <ValueWithLabel label="Location">
                             {db.LocationUri}
+                        </ValueWithLabel>
+                        <ValueWithLabel label="Has PII">
+                            {(db.Parameters && "pii_flag" in db.Parameters && db.Parameters.pii_flag) ? <Badge color="red">Yes</Badge> : <Badge color="green">No</Badge>}
                         </ValueWithLabel>
                     </SpaceBetween>
                     <SpaceBetween size="m">
