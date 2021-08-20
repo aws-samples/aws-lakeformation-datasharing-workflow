@@ -20,6 +20,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "init-ui": "yarn install && amplify init",
+    "deploy-ui": "amplify push",
     "init-central": "cd infra/central && yarn install && cdk bootstrap",
     "deploy-central": "cd infra/central && yarn install && cdk deploy --all --require-approval never --outputs-file ../../src/cfn-output.json",
     "deploy-producer": "cd infra/producer && yarn install && cdk deploy --require-approval never",
