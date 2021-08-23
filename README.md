@@ -26,12 +26,9 @@ The central mesh holds all the catalog items collated from the different produce
                 "Action": [
                     "glue:GetDatabase",
                     "glue:GetTables",
-                    "states:DescribeStateMachine",
                     "states:DescribeExecution",
                     "states:ListExecutions",
-                    "states:GetExecutionHistory",
                     "states:StartExecution",
-                    "states:StopExecution",
                     "glue:GetDatabases",
                     "glue:GetTable"
                 ],
