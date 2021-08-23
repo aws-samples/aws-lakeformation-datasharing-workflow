@@ -91,8 +91,6 @@ const execPostUIDeployment = async() => {
             },
         ]
     }));
-
-    console.log("Default Domain: "+appDetails.app.defaultDomain);
 }
 
 execPostUIDeployment();
