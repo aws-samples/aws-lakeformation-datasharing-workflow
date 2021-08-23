@@ -68,7 +68,7 @@ const execPostUIDeployment = async() => {
 
     const hosting = teamProviderInfo[envName].categories.hosting.amplifyhosting;
     const amplifyClient = new AmplifyClient(clientParams);
-    await amplifyClient.send(new UpdateAppCommand({appId: hosting.appId, customRules: [{source: "</^[^.]+$|\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json)$)([^.]+$)/>", target:"/index.html", status: 200}]}));
+    await amplifyClient.send(new UpdateAppCommand({appId: hosting.appId, customRules: [{source: "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json)$)([^.]+$)/>", target:"/index.html", status: 200}]}));
     const appDetails = await amplifyClient.send(new GetAppCommand({appId: hosting.appId}));
     
     console.log("Create First User");
