@@ -5,6 +5,7 @@
   "dependencies": {
     "@aws-amplify/ui-react": "^1.2.8",
     "@aws-sdk/client-amplify": "^3.27.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.27.0",
     "@aws-sdk/client-glue": "^3.25.0",
     "@aws-sdk/client-iam": "^3.27.0",
     "@aws-sdk/client-sfn": "^3.25.0",
@@ -15,6 +16,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "aws-amplify": "^4.2.4",
+    "inquirer": "^8.1.2",
     "minimist": "^1.2.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -25,7 +27,7 @@
   },
   "scripts": {
     "init-ui": "yarn install && amplify init",
-    "deploy-ui": "amplify push && amplify publish && ./post-ui-deployment.js",
+    "deploy-ui": "yarn init-ui && amplify push && amplify publish && ./post-ui-deployment.js",
     "init-central": "cd infra/central && yarn install && cdk bootstrap",
     "deploy-central": "cd infra/central && yarn install && cdk deploy --all --require-approval never --outputs-file ../../src/cfn-output.json",
     "deploy-producer": "cd infra/producer && yarn install && cdk deploy --require-approval never",
