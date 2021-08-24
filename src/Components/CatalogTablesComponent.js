@@ -13,6 +13,7 @@ function CatalogTablesComponent(props) {
     
     const [tables, setTables] = useState([]);
     const [nextToken, setNextToken] = useState();
+    const [response, setResponse] = useState();
     const [executionArn, setExecutionArn] = useState();
     const [requestSuccessful, setRequestSuccessful] = useState(false);
 
@@ -24,10 +25,10 @@ function CatalogTablesComponent(props) {
     useEffect(async() => {
         const credentials = await Auth.currentCredentials();
         const glue = new GlueClient({region: config.aws_project_region, credentials: Auth.essentialCredentials(credentials)});
-        const results = await glue.send(new GetTablesCommand({DatabaseName: dbname}));
-        setTables(results.TableList);
-        setNextToken(results.NextToken);
-    }, []);
+        const results = await glue.send(new GetTablesCommand({DatabaseName: dbname, NextToken: nextToken}));
+        setTables(tables => tables.concat(results.TableList));
+        setResponse(results);
+    }, [nextToken]);
 
     return(
         <div>
@@ -41,6 +42,7 @@ function CatalogTablesComponent(props) {
             <DatabaseDetailsComponent dbName={dbname} />
             <Box margin={{top: "l"}}>
                 <Table 
+                    footer={<Box textAlign="center" display={(response && response.NextToken) ? "block" : "none"}><Link variant="primary" onFollow={(event) => setNextToken(response.NextToken)}>View More</Link></Box>}
                     columnDefinitions={[
                         {
                             header: "Table Name",
