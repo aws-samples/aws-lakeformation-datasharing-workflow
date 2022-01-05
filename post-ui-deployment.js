@@ -15,7 +15,7 @@ const findUserPoolIdForEnvironment = async(cognitoClient) => {
     const auth = teamProviderInfo[envName].categories.auth;
     const projId = Object.keys(auth)[0];
 
-    const parameters = require(__dirname+"/amplify/backend/auth/"+projId+"/parameters.json");
+    const parameters = require(__dirname+"/amplify/backend/auth/"+projId+"/build/parameters.json");
     const userPoolName = parameters.userPoolName+"-"+envName;
     let userPoolId = null;
     let nextToken = null;

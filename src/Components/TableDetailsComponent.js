@@ -75,7 +75,7 @@ function TableDetailsComponent(props) {
                         },
                         {
                             header: "Is PII",
-                            cell: item => (item.Parameters && "pii_flag" in item.Parameters && item.Parameters.pii_flag) ? <Badge color="red">Yes</Badge> : <Badge color="green">No</Badge>
+                            cell: item => (item.Parameters && "pii_flag" in item.Parameters && item.Parameters.pii_flag === "true") ? <Badge color="red">Yes</Badge> : <Badge color="green">No</Badge>
                         }
                     ]} />
                 </Box>

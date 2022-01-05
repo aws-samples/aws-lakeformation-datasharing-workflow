@@ -27,14 +27,17 @@
   },
   "scripts": {
     "init-ui": "yarn install && amplify init",
-    "deploy-ui": "yarn init-ui && amplify push && amplify publish && ./post-ui-deployment.js",
+    "deploy-ui": "yarn init-ui && amplify add auth && amplify add hosting && amplify publish && ./post-ui-deployment.js",
     "init-central": "cd infra/central && yarn install && cdk bootstrap",
-    "deploy-central": "cd infra/central && yarn install && cdk deploy --all --require-approval never --outputs-file ../../src/cfn-output.json",
+    "deploy-central": "cd infra/central && yarn install && cdk bootstrap && cdk deploy --all --require-approval never --outputs-file ../../src/cfn-output.json",
     "deploy-producer": "cd infra/producer && yarn install && cdk deploy --require-approval never",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clean-central": "cd infra/central && yarn install && cdk destroy",
+    "clean-producer": "cd infra/producer && yarn install && cdk destroy",
+    "clean-ui": "./pre-ui-teardown.js && amplify delete"
   },
   "eslintConfig": {
     "extends": [

@@ -28,7 +28,7 @@ function DatabaseDetailsComponent({dbName}) {
                             {db.LocationUri}
                         </ValueWithLabel>
                         <ValueWithLabel label="Has PII">
-                            {(db.Parameters && "pii_flag" in db.Parameters && db.Parameters.pii_flag) ? <Badge color="red">Yes</Badge> : <Badge color="green">No</Badge>}
+                            {(db.Parameters && "pii_flag" in db.Parameters && db.Parameters.pii_flag === "true") ? <Badge color="red">Yes</Badge> : <Badge color="green">No</Badge>}
                         </ValueWithLabel>
                     </SpaceBetween>
                     <SpaceBetween size="m">
