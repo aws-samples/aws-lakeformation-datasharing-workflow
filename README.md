@@ -41,19 +41,3 @@ The central mesh holds all the catalog items collated from the different produce
 The different producer accounts holds the actual data in their respective S3 buckets. These are then shared to the Central Mesh so they can be included in the central catalog for ease of searching. The producer accounts owns the data so the final approval is up to them. To support the workflow engine, the following are the breakdown of the components:
 - `ProducerWorkflowRole` is the role that would be assumed by the workflow engine if it needs to send the approval request.
 - `DataLakeSharingApproval` is the SNS Topic where the approval request would be published. Relevant stakeholders in the producer team can subscribed their email addresses to get notified for requests. They can then click either approve/deny link embedded in the email to response accordingly to the request.
-
-## Deployment
-
-### Backend
-
-#### Central Mesh
-
-**TODO**
-
-#### Producer Account
-
-**TODO**
-
-### Frontend 
-
-**TODO**
