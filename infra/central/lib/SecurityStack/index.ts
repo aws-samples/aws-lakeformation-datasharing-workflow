@@ -34,12 +34,8 @@ export class SecurityStack extends NestedStack {
                 new PolicyStatement({
                     effect: Effect.ALLOW,
                     actions: [
-                        "states:DescribeActivity",
-                        "states:DeleteActivity",
-                        "states:GetActivityTask",
                         "states:SendTaskSuccess",
-                        "states:SendTaskFailure",
-                        "states:SendTaskHeartbeat"
+                        "states:SendTaskFailure"
                     ],
                     resources: ["*"]
                 })
@@ -108,24 +104,9 @@ export class SecurityStack extends NestedStack {
             managedPolicies: [ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole")],
             inlinePolicies: {inline0: workflowLambdaTableDetailsRolePolicy}
         });
-        
-        const stateMachineWorkflowRolePolicy = new PolicyDocument({
-            statements: [
-                new PolicyStatement({
-                    effect: Effect.ALLOW,
-                    actions: [
-                        "lambda:InvokeFunction",
-                        "lambda:InvokeAsync",
-                        "lakeformation:*"
-                    ],
-                    resources: ["*"]
-                })
-            ]
-        });
 
         this.stateMachineWorkflowRole = new Role(this, "DataLakeWorkflowRole", {
-            assumedBy: new ServicePrincipal("states.amazonaws.com"),
-            inlinePolicies: {inline0: stateMachineWorkflowRolePolicy}
+            assumedBy: new ServicePrincipal("states.amazonaws.com")
         });
     }
 }

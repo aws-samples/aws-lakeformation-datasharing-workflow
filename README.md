@@ -30,13 +30,29 @@ The central mesh holds all the catalog items collated from the different produce
                 "Action": [
                     "glue:GetDatabase",
                     "glue:GetTables",
-                    "states:DescribeExecution",
-                    "states:ListExecutions",
-                    "states:StartExecution",
                     "glue:GetDatabases",
                     "glue:GetTable"
                 ],
                 "Resource": "*"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "states:ListExecutions",
+                    "states:StartExecution"
+                ],
+                "Resource": [
+                    "arn:aws:states:<REGION>:<ACCOUNT_ID>:stateMachine:<STATE_MACHINE_NAME>"
+                ]
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "states:DescribeExecution"
+                ],
+                "Resource": [
+                    "arn:aws:states:<REGION>:<ACCOUNT_ID>:execution:<STATE_MACHINE_NAME>:*"
+                ]
             }
         ```
 - (**Optional**) React application deployed in Amplify hosting. If the UI is not deployed, then this is not needed.

@@ -10,6 +10,7 @@ const localAWSInfo = require(__dirname+"/amplify/.config/local-aws-info.json");
 const teamProviderInfo = require(__dirname+"/amplify/team-provider-info.json");
 const inquirer = require("inquirer");
 const envName = localEnvInfo.envName;
+const cfnOutput = require(__dirname+"/src/cfn-output.json");
 
 const findUserPoolIdForEnvironment = async(cognitoClient) => {
     const auth = teamProviderInfo[envName].categories.auth;
@@ -43,6 +44,8 @@ const execPostUIDeployment = async() => {
     }
 
     const iamClient = new IAMClient(clientParams);
+    const stateMachineArn = cfnOutput.InfraStack.StateMachineArn;
+    const executionArn = stateMachineArn.substring(0, stateMachineArn.indexOf("stateMachine")) + "execution:" + cfnOutput.InfraStack.StateMachineName +":*";
     await iamClient.send(new PutRolePolicyCommand({
         RoleName: teamProviderInfo[envName].awscloudformation.AuthRoleName,
         PolicyName: "inline0",
@@ -54,13 +57,29 @@ const execPostUIDeployment = async() => {
                     "Action": [
                         "glue:GetDatabase",
                         "glue:GetTables",
-                        "states:DescribeExecution",
-                        "states:ListExecutions",
-                        "states:StartExecution",
                         "glue:GetDatabases",
                         "glue:GetTable"
                     ],
                     "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "states:ListExecutions",
+                        "states:StartExecution"
+                    ],
+                    "Resource": [
+                        stateMachineArn
+                    ]
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "states:DescribeExecution"
+                    ],
+                    "Resource": [
+                        executionArn
+                    ]
                 }
             ]
         })

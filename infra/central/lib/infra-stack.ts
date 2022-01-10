@@ -33,5 +33,10 @@ export class InfraStack extends cdk.Stack {
       description: "ARN of DataWorkFlow Step Function"
     });
 
+    new CfnOutput(this, "StateMachineName", {
+      value: appStack.stateMachine.stateMachineName,
+      description: "Name of the DataWorkFlow Step Function"
+    });
+
   }
 }
