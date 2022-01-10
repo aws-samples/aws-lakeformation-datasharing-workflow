@@ -7,6 +7,10 @@ This application demonstrates how to build an approval workflow to provide a con
 
 The data owner is identified using a table level parameter `data_owner` which points to the producer account ID.
 
+## Architecture
+
+![Datamesh Workflow Architecture](doc-images/datamesh-workflow-detailed.png)
+
 ## Components
 
 The application consists of the following components:
