@@ -29,7 +29,7 @@ function RequestAccessComponent({dbName, tableName, successHandler}) {
     const [error, setError] = useState();
 
     const submitRequestAccess = async() => {
-        if (targetAccount && targetAccount.length > 0) {
+        if (targetAccount && targetAccount.length > 0 && !isNaN(targetAccount)) {
             const credentials = await Auth.currentCredentials();
             const sfnClient = new SFNClient({region: config.aws_project_region, credentials: Auth.essentialCredentials(credentials)});
             try {
