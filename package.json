@@ -12,9 +12,6 @@
     "@awsui/collection-hooks": "^1.0.17",
     "@awsui/components-react": "^3.0.216",
     "@awsui/global-styles": "^1.0.9",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
     "aws-amplify": "^4.2.4",
     "inquirer": "^8.1.2",
     "minimist": "^1.2.5",
@@ -22,8 +19,10 @@
     "react-dom": "^17.0.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.0",
     "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "init-ui": "yarn install && amplify init",
