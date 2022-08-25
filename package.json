@@ -24,6 +24,9 @@
   "devDependencies": {
     "react-scripts": "^5.0.1"
   },
+  "resolutions": {
+    "nth-check": "^2.1.1"
+  },
   "scripts": {
     "init-ui": "yarn install && amplify init",
     "deploy-ui": "yarn init-ui && amplify add auth && amplify add hosting && amplify publish && ./post-ui-deployment.js",

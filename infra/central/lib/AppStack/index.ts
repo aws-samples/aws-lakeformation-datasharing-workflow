@@ -21,7 +21,7 @@ import { Construct, NestedStack, NestedStackProps, Stack, StackProps } from "@aw
 import {LambdaInvocationType, LambdaInvoke} from "@aws-cdk/aws-stepfunctions-tasks";
 import { Choice, Condition, IntegrationPattern, JsonPath, StateMachine, StateMachineType, TaskInput } from "@aws-cdk/aws-stepfunctions";
 import { HttpApi, HttpMethod } from "@aws-cdk/aws-apigatewayv2";
-import { LambdaProxyIntegration } from "@aws-cdk/aws-apigatewayv2-integrations";
+import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations";
 import { SecurityStack } from "../SecurityStack";
 
 export interface AppStackProps extends NestedStackProps {
@@ -45,9 +45,7 @@ export class AppStack extends NestedStack {
         httpApi.addRoutes({
             path: '/workflow/update-state',
             methods: [HttpMethod.GET],
-            integration: new LambdaProxyIntegration({
-                handler: workflowActivityApprover
-            })
+            integration: new HttpLambdaIntegration("UpdateStateLambdaHandlerIntegration", workflowActivityApprover)
         });
 
         const workflowSendApprovalNotification = new Function(this, "WorkflowSendApprovalNotification", {
