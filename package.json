@@ -10,7 +10,7 @@
     "@aws-sdk/client-iam": "^3.27.0",
     "@aws-sdk/client-sfn": "^3.25.0",
     "@awsui/collection-hooks": "^1.0.17",
-    "@awsui/components-react": "^3.0.216",
+    "@awsui/components-react": "^3.0.640",
     "@awsui/global-styles": "^1.0.9",
     "aws-amplify": "^4.2.4",
     "inquirer": "^8.1.2",
