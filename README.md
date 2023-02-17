@@ -74,7 +74,7 @@ The following are the deployment requirements:
 - The [Amplify CLI](https://docs.amplify.aws/cli/start/install/) v5.3.0+ (for the workflow UI)
 - AWS Profiles for each of the accounts (central and producers) that you would be deploying in.
 
-You can clone the workflow UI and AWS CDK scripts from the [GitHub repository](https://gitlab.aws.dev/jantan/datamesh-workflow).
+You can clone the workflow UI and AWS CDK scripts from the [GitHub repository](https://github.com/aws-samples/aws-lakeformation-datasharing-workflow).
 
 ### Central Account
 To deploy the backend for the central account, go to the root of the project after cloning the GitHub repository and enter the following code:
